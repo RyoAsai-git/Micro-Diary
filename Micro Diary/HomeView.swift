@@ -105,13 +105,6 @@ struct HomeView: View {
             .padding(.horizontal, 16)
             .navigationTitle("My One Line")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {}) {
-                        Image(systemName: "gearshape")
-                    }
-                }
-            }
         }
         .overlay(
             // 完了アニメーション

@@ -10,13 +10,11 @@ import UserNotifications
 
 struct SettingsView: View {
     @ObservedObject private var premiumService = PremiumService.shared
+    @ObservedObject private var themeManager = ThemeManager.shared
     @State private var notificationTime = Date()
     @State private var notificationsEnabled = true
-    @State private var selectedTheme = 0 // 0: システム, 1: ライト, 2: ダーク
     @State private var showingNotificationPermissionAlert = false
     @State private var showingPremiumPurchase = false
-    
-    private let themes = ["システム", "ライト", "ダーク"]
     
     var body: some View {
         NavigationView {
@@ -64,9 +62,9 @@ struct SettingsView: View {
                         
                         Spacer()
                         
-                        Picker("テーマ", selection: $selectedTheme) {
-                            ForEach(0..<themes.count, id: \.self) { index in
-                                Text(themes[index]).tag(index)
+                        Picker("", selection: $themeManager.currentTheme) {
+                            ForEach(AppTheme.allCases, id: \.self) { theme in
+                                Text(theme.displayName).tag(theme)
                             }
                         }
                         .pickerStyle(MenuPickerStyle())
@@ -232,7 +230,6 @@ struct SettingsView: View {
         
         notificationTime = savedTime
         notificationsEnabled = UserDefaults.standard.bool(forKey: "notificationsEnabled")
-        selectedTheme = UserDefaults.standard.integer(forKey: "selectedTheme")
     }
     
     private func requestNotificationPermission() {

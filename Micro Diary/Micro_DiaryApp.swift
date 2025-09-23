@@ -11,11 +11,13 @@ import UserNotifications
 @main
 struct Micro_DiaryApp: App {
     let persistenceController = PersistenceController.shared
+    @ObservedObject private var themeManager = ThemeManager.shared
 
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .preferredColorScheme(themeManager.currentTheme.colorScheme)
                 .onAppear {
                     setupNotifications()
                 }
