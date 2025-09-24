@@ -64,6 +64,7 @@ struct PersistenceController {
             description.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(containerIdentifier: "iCloud.ryoasai.Micro-Diary")
         }
         
+        let persistentContainer = container
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 print("Core Data error: \(error), \(error.userInfo)")
@@ -85,7 +86,7 @@ struct PersistenceController {
                 
                 // CloudKitServiceにコンテナを設定
                 if !inMemory {
-                    CloudKitService.shared.setPersistentContainer(self.container)
+                    CloudKitService.shared.setPersistentContainer(persistentContainer)
                 }
             }
         })
