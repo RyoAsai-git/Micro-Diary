@@ -163,9 +163,6 @@ extension PremiumService {
         return isPremiumUser
     }
     
-    func canExportData() -> Bool {
-        return isPremiumUser
-    }
     
     func canChangeTheme() -> Bool {
         return isPremiumUser
@@ -227,11 +224,6 @@ struct PremiumPurchaseView: View {
                             description: "ライト・ダークテーマの選択"
                         )
                         
-                        PremiumFeatureRow(
-                            icon: "square.and.arrow.up.fill",
-                            title: "データエクスポート",
-                            description: "PDF形式での日記エクスポート"
-                        )
                         
                         PremiumFeatureRow(
                             icon: "pencil.circle.fill",

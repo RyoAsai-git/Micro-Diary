@@ -11,6 +11,7 @@ import UserNotifications
 struct SettingsView: View {
     @ObservedObject private var premiumService = PremiumService.shared
     @ObservedObject private var themeManager = ThemeManager.shared
+    @ObservedObject private var cloudKitService = CloudKitService.shared
     @State private var notificationTime = Date()
     @State private var notificationsEnabled = true
     @State private var showingNotificationPermissionAlert = false
@@ -73,43 +74,58 @@ struct SettingsView: View {
                 
                 // データ管理
                 Section("データ管理") {
-                    HStack {
-                        Image(systemName: "icloud")
-                            .foregroundColor(.blue)
-                        
-                        VStack(alignment: .leading) {
-                            Text("iCloud同期")
-                            Text("すべてのデバイスで日記を同期")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                        }
-                        
-                        Spacer()
-                        
-                        Text("有効")
-                            .font(.caption)
-                            .foregroundColor(.green)
-                    }
-                    
-                    Button(action: {}) {
+                    VStack(spacing: 12) {
                         HStack {
-                            Image(systemName: "square.and.arrow.up")
-                                .foregroundColor(.orange)
+                            Image(systemName: "icloud")
+                                .foregroundColor(.blue)
                             
-                            Text("データエクスポート")
+                            VStack(alignment: .leading) {
+                                Text("iCloud同期")
+                                Text("すべてのデバイスで日記を同期")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
                             
                             Spacer()
                             
-                            Text("プレミアム")
+                            VStack(alignment: .trailing) {
+                                Text(cloudKitService.iCloudStatusText)
+                                    .font(.caption)
+                                    .foregroundColor(cloudKitService.iCloudStatusColor)
+                                
+                                if cloudKitService.isSyncing {
+                                    HStack {
+                                        ProgressView()
+                                            .scaleEffect(0.7)
+                                        Text("同期中")
+                                            .font(.caption2)
+                                            .foregroundColor(.secondary)
+                                    }
+                                } else if let lastSync = cloudKitService.lastSyncDate {
+                                    Text("最終同期: \(lastSync, formatter: syncDateFormatter)")
+                                        .font(.caption2)
+                                        .foregroundColor(.secondary)
+                                }
+                            }
+                        }
+                        
+                        if let error = cloudKitService.syncError {
+                            Text("同期エラー: \(error)")
                                 .font(.caption)
-                                .foregroundColor(.orange)
-                                .padding(.horizontal, 8)
-                                .padding(.vertical, 2)
-                                .background(Color.orange.opacity(0.2))
-                                .cornerRadius(4)
+                                .foregroundColor(.red)
+                                .multilineTextAlignment(.leading)
+                        }
+                        
+                        if cloudKitService.iCloudStatus == .available {
+                            Button("手動同期") {
+                                cloudKitService.forceSyncWithCloudKit()
+                            }
+                            .font(.caption)
+                            .foregroundColor(.blue)
+                            .disabled(cloudKitService.isSyncing)
                         }
                     }
-                    .foregroundColor(.primary)
+                    .padding(.vertical, 4)
                 }
                 
                 // プレミアム
@@ -141,7 +157,7 @@ struct SettingsView: View {
                                 VStack(alignment: .leading) {
                                     Text("プレミアムにアップグレード")
                                         .foregroundColor(.primary)
-                                    Text("広告削除・テーマ変更・エクスポート機能")
+                                    Text("広告削除・テーマ変更・無制限編集")
                                         .font(.caption)
                                         .foregroundColor(.secondary)
                                 }
@@ -186,9 +202,6 @@ struct SettingsView: View {
             .navigationTitle("設定")
             .navigationBarTitleDisplayMode(.large)
         }
-        .onAppear {
-            loadNotificationSettings()
-        }
         .onChange(of: notificationsEnabled) { enabled in
             if enabled {
                 requestNotificationPermission()
@@ -216,6 +229,17 @@ struct SettingsView: View {
         .sheet(isPresented: $showingPremiumPurchase) {
             PremiumPurchaseView()
         }
+        .onAppear {
+            loadNotificationSettings()
+            cloudKitService.checkiCloudAccountStatus()
+        }
+    }
+    
+    private var syncDateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .none
+        formatter.timeStyle = .short
+        return formatter
     }
     
     private func loadNotificationSettings() {
