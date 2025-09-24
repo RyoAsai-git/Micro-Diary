@@ -56,10 +56,12 @@ struct PersistenceController {
                 fatalError("Failed to retrieve a persistent store description.")
             }
             
-            // CloudKitコンテナIDを設定
+            // CloudKit設定
             description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
             description.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
-            description.setOption("iCloud.ryoasai.Micro-Diary" as NSString, forKey: NSPersistentCloudKitContainerOptionsKey)
+            
+            // CloudKitコンテナの設定
+            description.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(containerIdentifier: "iCloud.ryoasai.Micro-Diary")
         }
         
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
