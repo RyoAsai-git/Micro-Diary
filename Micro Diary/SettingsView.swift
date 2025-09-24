@@ -16,6 +16,7 @@ struct SettingsView: View {
     @State private var notificationsEnabled = true
     @State private var showingNotificationPermissionAlert = false
     @State private var showingPremiumPurchase = false
+    @State private var showingSyncConfirmation = false
     
     var body: some View {
         NavigationView {
@@ -117,11 +118,29 @@ struct SettingsView: View {
                         }
                         
                         if cloudKitService.iCloudStatus == .available {
-                            Button("手動同期") {
-                                cloudKitService.forceSyncWithCloudKit()
+                            Button(action: {
+                                showingSyncConfirmation = true
+                            }) {
+                                HStack {
+                                    Image(systemName: "arrow.clockwise.icloud")
+                                        .foregroundColor(.blue)
+                                    
+                                    Text("手動同期")
+                                        .foregroundColor(.primary)
+                                    
+                                    Spacer()
+                                    
+                                    if cloudKitService.isSyncing {
+                                        ProgressView()
+                                            .scaleEffect(0.8)
+                                    } else {
+                                        Image(systemName: "chevron.right")
+                                            .font(.caption)
+                                            .foregroundColor(.secondary)
+                                    }
+                                }
+                                .padding(.vertical, 4)
                             }
-                            .font(.caption)
-                            .foregroundColor(.blue)
                             .disabled(cloudKitService.isSyncing)
                         }
                     }
@@ -228,6 +247,14 @@ struct SettingsView: View {
         }
         .sheet(isPresented: $showingPremiumPurchase) {
             PremiumPurchaseView()
+        }
+        .alert("iCloud同期", isPresented: $showingSyncConfirmation) {
+            Button("はい") {
+                cloudKitService.forceSyncWithCloudKit()
+            }
+            Button("いいえ", role: .cancel) { }
+        } message: {
+            Text("いますぐ同期しますか？\n\nデータがiCloudと同期されます。")
         }
         .onAppear {
             loadNotificationSettings()
