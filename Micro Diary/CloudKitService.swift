@@ -8,6 +8,7 @@
 import Foundation
 import CoreData
 import CloudKit
+import SwiftUI
 
 class CloudKitService: ObservableObject {
     static let shared = CloudKitService()
