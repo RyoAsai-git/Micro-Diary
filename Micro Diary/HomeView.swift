@@ -103,7 +103,7 @@ struct HomeView: View {
                 Spacer()
             }
             .padding(.horizontal, 16)
-            .navigationTitle("My One Line")
+            .navigationTitle("私のひとこと")
             .navigationBarTitleDisplayMode(.inline)
         }
         .overlay(
