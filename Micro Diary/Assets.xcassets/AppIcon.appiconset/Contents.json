@@ -1,55 +1,55 @@
 {
   "images" : [
     {
-      "filename" : "micro_diary_icon_20x20.png",
+      "filename" : "micro_diary_40_40.jpg",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "20x20"
     },
     {
-      "filename" : "micro_diary_icon_20x20@3x.png",
+      "filename" : "micro_diary_60_60.jpg",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "20x20"
     },
     {
-      "filename" : "micro_diary_icon_29x29@2x.png",
+      "filename" : "micro_diary_58_58.jpg",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "29x29"
     },
     {
-      "filename" : "micro_diary_icon_29x29@3x.png",
+      "filename" : "micro_diary_87_87.jpg",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "29x29"
     },
     {
-      "filename" : "micro_diary_icon_40x40@2x.png",
+      "filename" : "micro_diary_80_80.jpg",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "40x40"
     },
     {
-      "filename" : "micro_diary_icon_40x40@3x.png",
+      "filename" : "micro_diary_120_120.jpg",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "40x40"
     },
     {
-      "filename" : "micro_diary_icon_60x60@2x.png",
+      "filename" : "micro_diary_120_120 1.jpg",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "60x60"
     },
     {
-      "filename" : "micro_diary_icon_60x60@3x.png",
+      "filename" : "micro_diary_180_180.jpg",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "60x60"
     },
     {
-      "filename" : "micro_diary_icon (1).jpg",
+      "filename" : "micro_diary_1024_1024.jpg",
       "idiom" : "ios-marketing",
       "scale" : "1x",
       "size" : "1024x1024"
