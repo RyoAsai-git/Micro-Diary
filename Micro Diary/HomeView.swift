@@ -187,8 +187,8 @@ struct HomeView: View {
                     }
                 }
                 
-                // 去年の今日
-                LastYearTodayView()
+                // 過去の記録
+                PastRecordView()
                 
                 Spacer()
             }
@@ -253,43 +253,145 @@ struct HomeView: View {
     }
 }
 
-struct LastYearTodayView: View {
+struct PastRecordView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @State private var selectedPeriod: TimePeriod = .year
     
-    @FetchRequest private var lastYearEntry: FetchedResults<Entry>
+    enum TimePeriod: String, CaseIterable {
+        case yesterday = "昨日"
+        case threeDays = "3日前"
+        case week = "1週間前"
+        case month = "1ヶ月前"
+        case threeMonths = "3ヶ月前"
+        case halfYear = "半年前"
+        case year = "1年前"
+        
+        var days: Int {
+            switch self {
+            case .yesterday: return 1
+            case .threeDays: return 3
+            case .week: return 7
+            case .month: return 30
+            case .threeMonths: return 90
+            case .halfYear: return 180
+            case .year: return 365
+            }
+        }
+        
+        var displayTitle: String {
+            switch self {
+            case .yesterday: return "昨日の記録"
+            case .threeDays: return "3日前の記録"
+            case .week: return "1週間前の記録"
+            case .month: return "1ヶ月前の記録"
+            case .threeMonths: return "3ヶ月前の記録"
+            case .halfYear: return "半年前の記録"
+            case .year: return "1年前の記録"
+            }
+        }
+    }
+    
+    @FetchRequest private var pastEntries: FetchedResults<Entry>
     
     init() {
-        let lastYear = Calendar.current.date(byAdding: .year, value: -1, to: Date())!
-        let lastYearToday = Calendar.current.startOfDay(for: lastYear)
-        let lastYearTomorrow = Calendar.current.date(byAdding: .day, value: 1, to: lastYearToday)!
+        // 初期値として1年前のエントリを取得
+        let pastDate = Calendar.current.date(byAdding: .day, value: -365, to: Date())!
+        let pastDay = Calendar.current.startOfDay(for: pastDate)
+        let pastNextDay = Calendar.current.date(byAdding: .day, value: 1, to: pastDay)!
         
-        _lastYearEntry = FetchRequest(
+        _pastEntries = FetchRequest(
             sortDescriptors: [],
-            predicate: NSPredicate(format: "date >= %@ AND date < %@", lastYearToday as CVarArg, lastYearTomorrow as CVarArg)
+            predicate: NSPredicate(format: "date >= %@ AND date < %@", pastDay as CVarArg, pastNextDay as CVarArg)
         )
     }
     
+    private func updateFetchRequest() {
+        let pastDate = Calendar.current.date(byAdding: .day, value: -selectedPeriod.days, to: Date())!
+        let pastDay = Calendar.current.startOfDay(for: pastDate)
+        let pastNextDay = Calendar.current.date(byAdding: .day, value: 1, to: pastDay)!
+        
+        pastEntries.nsPredicate = NSPredicate(format: "date >= %@ AND date < %@", pastDay as CVarArg, pastNextDay as CVarArg)
+    }
+    
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("去年の今日")
-                .font(.caption)
-                .foregroundColor(.secondary)
+        VStack(alignment: .leading, spacing: 12) {
+            // セクションタイトル
+            Text("過去の記録")
+                .font(.headline)
+                .foregroundColor(.primary)
             
-            if let entry = lastYearEntry.first {
-                Text(entry.text ?? "")
-                    .font(.body)
-                    .foregroundColor(.primary)
-            } else {
-                Text("去年の今日の記録はありません")
-                    .font(.body)
-                    .foregroundColor(.secondary)
-                    .italic()
+            // 期間選択タブ（スクロール可能）
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    ForEach(TimePeriod.allCases, id: \.self) { period in
+                        Button(action: {
+                            selectedPeriod = period
+                            updateFetchRequest()
+                        }) {
+                            Text(period.rawValue)
+                                .font(.caption)
+                                .fontWeight(selectedPeriod == period ? .semibold : .regular)
+                                .foregroundColor(selectedPeriod == period ? .white : .primary)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 6)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 16)
+                                        .fill(selectedPeriod == period ? Color.blue : Color(.secondarySystemBackground))
+                                )
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                    }
+                }
+                .padding(.horizontal, 2)
             }
+            
+            // 記録表示エリア
+            VStack(alignment: .leading, spacing: 8) {
+                Text(selectedPeriod.displayTitle)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                
+                if let entry = pastEntries.first {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(entry.text ?? "")
+                            .font(.body)
+                            .foregroundColor(.primary)
+                        
+                        // 満足度表示
+                        HStack {
+                            Text("満足度:")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                            
+                            Text("\(Int(entry.satisfactionScore))/100")
+                                .font(.caption)
+                                .fontWeight(.medium)
+                                .foregroundColor(.primary)
+                            
+                            Spacer()
+                            
+                            if entry.isEdited {
+                                Text("編集済み")
+                                    .font(.caption2)
+                                    .foregroundColor(.orange)
+                            }
+                        }
+                    }
+                } else {
+                    Text("\(selectedPeriod.displayTitle.replacingOccurrences(of: "の記録", with: ""))の記録はありません")
+                        .font(.body)
+                        .foregroundColor(.secondary)
+                        .italic()
+                }
+            }
+            .padding(12)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(Color(.tertiarySystemBackground))
+            .cornerRadius(8)
         }
-        .padding(12)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color(.tertiarySystemBackground))
-        .cornerRadius(8)
+        .onAppear {
+            updateFetchRequest()
+        }
     }
 }
 
