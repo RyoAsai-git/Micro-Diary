@@ -12,11 +12,14 @@ struct EditEntryView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
     
+    @ObservedObject private var premiumService = PremiumService.shared
+    
     let entry: Entry
     @State private var editedText: String = ""
     @State private var editedSatisfactionScore: Double = 50
     @State private var showingSaveConfirmation = false
     @State private var isLoading = false
+    @State private var showingPremiumPrompt = false
     
     // 今日の日付（日のみ）
     private var today: Date {
@@ -27,6 +30,11 @@ struct EditEntryView: View {
     private var isToday: Bool {
         guard let entryDate = entry.date else { return false }
         return Calendar.current.isDate(entryDate, inSameDayAs: today)
+    }
+    
+    // 編集可能かどうかを判定
+    private var canEdit: Bool {
+        return isToday || premiumService.canEditPastEntries()
     }
     
     var body: some View {
@@ -47,7 +55,7 @@ struct EditEntryView: View {
                 .padding(.top, 16)
                 
                 // 編集フィールド
-                if isToday {
+                if canEdit {
                     VStack(spacing: 16) {
                         TextEditor(text: $editedText)
                             .font(.body)
@@ -132,7 +140,7 @@ struct EditEntryView: View {
                         .disabled(editedText.isEmpty || editedText.count > 100 || isLoading)
                     }
                 } else {
-                    // 過去の投稿は編集不可
+                    // 過去の投稿は編集不可（プレミアムでない場合）
                     VStack(spacing: 16) {
                         Text(entry.text ?? "")
                             .font(.body)
@@ -143,10 +151,17 @@ struct EditEntryView: View {
                             .background(Color(.tertiarySystemBackground))
                             .cornerRadius(12)
                         
-                        Text("過去の投稿は編集できません")
+                        VStack(spacing: 8) {
+                            Text("過去の投稿を編集するには")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                            
+                            Button("プレミアムにアップグレード") {
+                                showingPremiumPrompt = true
+                            }
                             .font(.caption)
-                            .foregroundColor(.secondary)
-                            .italic()
+                            .foregroundColor(.blue)
+                        }
                     }
                 }
                 
@@ -169,6 +184,9 @@ struct EditEntryView: View {
         } message: {
             Text("変更内容が保存されました。")
         }
+        .sheet(isPresented: $showingPremiumPrompt) {
+            PremiumPurchaseView()
+        }
         .onAppear {
             editedText = entry.text ?? ""
             editedSatisfactionScore = Double(entry.satisfactionScore)
@@ -176,7 +194,7 @@ struct EditEntryView: View {
     }
     
     private func saveEntry() {
-        guard !editedText.isEmpty && editedText.count <= 100 && isToday else { return }
+        guard !editedText.isEmpty && editedText.count <= 100 && canEdit else { return }
         
         isLoading = true
         

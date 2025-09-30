@@ -96,7 +96,9 @@ struct EntryDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
     
+    @ObservedObject private var premiumService = PremiumService.shared
     @State private var showingEditView = false
+    @State private var showingPremiumPrompt = false
     @FetchRequest private var lastYearEntry: FetchedResults<Entry>
     
     private var dateFormatter: DateFormatter {
@@ -115,6 +117,11 @@ struct EntryDetailView: View {
     private var isToday: Bool {
         guard let entryDate = entry.date else { return false }
         return Calendar.current.isDate(entryDate, inSameDayAs: today)
+    }
+    
+    // 編集可能かどうかを判定
+    private var canEdit: Bool {
+        return isToday || premiumService.canEditPastEntries()
     }
     
     init(entry: Entry) {
@@ -199,10 +206,10 @@ struct EntryDetailView: View {
         .navigationTitle("日記")
         .navigationBarTitleDisplayMode(.inline)
         .safeAreaInset(edge: .bottom) {
-            if isToday {
-                VStack {
-                    Divider()
-                    
+            VStack {
+                Divider()
+                
+                if canEdit {
                     Button(action: {
                         showingEditView = true
                     }) {
@@ -218,15 +225,34 @@ struct EntryDetailView: View {
                         .background(Color.blue)
                         .cornerRadius(12)
                     }
-                    .padding(.horizontal, 16)
-                    .padding(.bottom, 8)
+                } else if !isToday {
+                    Button(action: {
+                        showingPremiumPrompt = true
+                    }) {
+                        HStack {
+                            Image(systemName: "star.fill")
+                                .font(.system(size: 16))
+                            Text("プレミアムで編集")
+                                .font(.headline)
+                        }
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 50)
+                        .background(Color.orange)
+                        .cornerRadius(12)
+                    }
                 }
-                .background(Color(.systemBackground))
             }
+            .padding(.horizontal, 16)
+            .padding(.bottom, 8)
+            .background(Color(.systemBackground))
         }
         .sheet(isPresented: $showingEditView) {
             EditEntryView(entry: entry)
                 .environment(\.managedObjectContext, viewContext)
+        }
+        .sheet(isPresented: $showingPremiumPrompt) {
+            PremiumPurchaseView()
         }
     }
 }

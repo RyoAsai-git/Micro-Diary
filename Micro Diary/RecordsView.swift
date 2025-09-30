@@ -11,6 +11,7 @@ import Charts
 
 struct RecordsView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @ObservedObject private var premiumService = PremiumService.shared
     
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Entry.date, ascending: true)],
@@ -18,6 +19,8 @@ struct RecordsView: View {
     ) private var entries: FetchedResults<Entry>
     
     @State private var selectedPeriod: TimePeriod = .week
+    @State private var showingPastRecords = false
+    @State private var showingPremiumPrompt = false
     
     enum TimePeriod: String, CaseIterable {
         case week = "1週間"
@@ -74,6 +77,14 @@ struct RecordsView: View {
                     // 満足度グラフ
                     SatisfactionChartView(entries: filteredEntries, period: selectedPeriod)
                     
+                    // 過去の記録セクション
+                    PastRecordsSection(
+                        totalEntries: entries.count,
+                        onTapped: {
+                            showingPastRecords = true
+                        }
+                    )
+                    
                     Spacer(minLength: 32)
                 }
                 .padding(.top, 16)
@@ -81,6 +92,60 @@ struct RecordsView: View {
             .navigationTitle("記録")
             .navigationBarTitleDisplayMode(.large)
         }
+        .sheet(isPresented: $showingPastRecords) {
+            PastRecordsDetailView()
+                .environment(\.managedObjectContext, viewContext)
+        }
+        .sheet(isPresented: $showingPremiumPrompt) {
+            PremiumPurchaseView()
+        }
+    }
+}
+
+struct PastRecordsSection: View {
+    let totalEntries: Int
+    let onTapped: () -> Void
+    
+    var body: some View {
+        Button(action: onTapped) {
+            VStack(spacing: 16) {
+                HStack {
+                    Text("過去の記録")
+                        .font(.headline)
+                        .foregroundColor(.primary)
+                    
+                    Spacer()
+                    
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 14))
+                        .foregroundColor(.secondary)
+                }
+                
+                HStack {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("総記録数")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                        
+                        Text("\(totalEntries)件")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundColor(.primary)
+                    }
+                    
+                    Spacer()
+                    
+                    Text("詳細を見る")
+                        .font(.caption)
+                        .foregroundColor(.blue)
+                }
+            }
+            .padding(16)
+            .background(Color(.secondarySystemBackground))
+            .cornerRadius(12)
+        }
+        .buttonStyle(PlainButtonStyle())
+        .padding(.horizontal, 16)
     }
 }
 
