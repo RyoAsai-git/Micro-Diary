@@ -25,10 +25,10 @@ struct ContentView: View {
                     Text("タイムライン")
                 }
             
-            BadgeView()
+            RecordsView()
                 .tabItem {
-                    Image(systemName: "star")
-                    Text("バッジ")
+                    Image(systemName: "chart.line.uptrend.xyaxis")
+                    Text("記録")
                 }
             
             SettingsView()

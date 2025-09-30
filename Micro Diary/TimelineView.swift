@@ -80,12 +80,6 @@ struct TimelineEntryRow: View {
                     .foregroundColor(.secondary)
                 
                 Spacer()
-                
-                if entry.isEdited {
-                    Image(systemName: "pencil")
-                        .font(.caption)
-                        .foregroundColor(.orange)
-                }
             }
             
             Text(entry.text ?? "")
@@ -102,6 +96,7 @@ struct EntryDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
     
+    @State private var showingEditView = false
     @FetchRequest private var lastYearEntry: FetchedResults<Entry>
     
     private var dateFormatter: DateFormatter {
@@ -109,6 +104,17 @@ struct EntryDetailView: View {
         formatter.dateFormat = "yyyy年M月d日 (E)"
         formatter.locale = Locale(identifier: "ja_JP")
         return formatter
+    }
+    
+    // 今日の日付（日のみ）
+    private var today: Date {
+        Calendar.current.startOfDay(for: Date())
+    }
+    
+    // 当日投稿かどうかを判定
+    private var isToday: Bool {
+        guard let entryDate = entry.date else { return false }
+        return Calendar.current.isDate(entryDate, inSameDayAs: today)
     }
     
     init(entry: Entry) {
@@ -136,14 +142,38 @@ struct EntryDetailView: View {
                     .frame(maxWidth: .infinity, alignment: .center)
                 
                 // メインテキスト
-                Text(entry.text ?? "")
-                    .font(.title3)
-                    .foregroundColor(.primary)
-                    .multilineTextAlignment(.center)
-                    .padding(20)
+                VStack(spacing: 16) {
+                    Text(entry.text ?? "")
+                        .font(.title3)
+                        .foregroundColor(.primary)
+                        .multilineTextAlignment(.center)
+                        .padding(20)
+                        .frame(maxWidth: .infinity)
+                        .background(Color(.secondarySystemBackground))
+                        .cornerRadius(12)
+                    
+                    // 満足度表示
+                    VStack(spacing: 8) {
+                        Text("満足度")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                        
+                        HStack {
+                            Text("\(Int(entry.satisfactionScore))")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .foregroundColor(.primary)
+                            
+                            Text("/ 100")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                    .padding(12)
                     .frame(maxWidth: .infinity)
-                    .background(Color(.secondarySystemBackground))
-                    .cornerRadius(12)
+                    .background(Color(.tertiarySystemBackground))
+                    .cornerRadius(8)
+                }
                 
                 // 去年の今日
                 if let lastYearEntry = lastYearEntry.first {
@@ -168,6 +198,36 @@ struct EntryDetailView: View {
         }
         .navigationTitle("日記")
         .navigationBarTitleDisplayMode(.inline)
+        .safeAreaInset(edge: .bottom) {
+            if isToday {
+                VStack {
+                    Divider()
+                    
+                    Button(action: {
+                        showingEditView = true
+                    }) {
+                        HStack {
+                            Image(systemName: "pencil")
+                                .font(.system(size: 16))
+                            Text("編集")
+                                .font(.headline)
+                        }
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 50)
+                        .background(Color.blue)
+                        .cornerRadius(12)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 8)
+                }
+                .background(Color(.systemBackground))
+            }
+        }
+        .sheet(isPresented: $showingEditView) {
+            EditEntryView(entry: entry)
+                .environment(\.managedObjectContext, viewContext)
+        }
     }
 }
 

@@ -13,6 +13,7 @@ struct HomeView: View {
     @ObservedObject private var adService = AdService.shared
     
     @State private var todayText: String = ""
+    @State private var satisfactionScore: Double = 50
     @State private var showCompletionAnimation = false
     @State private var hasEntryToday = false
     @State private var showingEditView = false
@@ -78,6 +79,28 @@ struct HomeView: View {
                             .offset(x: -8, y: -8)
                         }
                         
+                        // 満足度表示
+                        VStack(spacing: 8) {
+                            Text("今日の満足度")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                            
+                            HStack {
+                                Text("\(Int(entry.satisfactionScore))")
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.primary)
+                                
+                                Text("/ 100")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
+                        }
+                        .padding(12)
+                        .frame(maxWidth: .infinity)
+                        .background(Color(.tertiarySystemBackground))
+                        .cornerRadius(8)
+                        
                         HStack {
                             VStack(alignment: .leading) {
                                 Text("今日のひとことを記録しました ✓")
@@ -112,6 +135,45 @@ struct HomeView: View {
                             .font(.caption)
                             .foregroundColor(.secondary)
                             .frame(maxWidth: .infinity, alignment: .trailing)
+                        
+                        // 満足度スライダー
+                        VStack(spacing: 12) {
+                            HStack {
+                                Text("今日の満足度")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                                
+                                Spacer()
+                                
+                                Text("\(Int(satisfactionScore)) / 100")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
+                            
+                            Slider(value: $satisfactionScore, in: 0...100, step: 1)
+                                .accentColor(.blue)
+                            
+                            HStack {
+                                Text("0")
+                                    .font(.caption2)
+                                    .foregroundColor(.secondary)
+                                
+                                Spacer()
+                                
+                                Text("50")
+                                    .font(.caption2)
+                                    .foregroundColor(.secondary)
+                                
+                                Spacer()
+                                
+                                Text("100")
+                                    .font(.caption2)
+                                    .foregroundColor(.secondary)
+                            }
+                        }
+                        .padding(16)
+                        .background(Color(.tertiarySystemBackground))
+                        .cornerRadius(12)
                         
                         Button(action: saveTodayEntry) {
                             Text("保存")
@@ -164,6 +226,7 @@ struct HomeView: View {
         entry.id = UUID()
         entry.date = today
         entry.text = todayText
+        entry.satisfactionScore = Int16(satisfactionScore)
         entry.createdAt = Date()
         entry.isEdited = false
         

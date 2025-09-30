@@ -17,11 +17,13 @@ struct PersistenceController {
         
         // Create sample entries for preview
         let sampleTexts = ["今日は良い天気でした", "新しいプロジェクトを始めた", "友人と楽しい時間を過ごした", "読書の時間を作れた", "散歩で気分転換"]
+        let sampleScores: [Int16] = [85, 70, 90, 75, 60]
         for i in 0..<5 {
             let entry = Entry(context: viewContext)
             entry.id = UUID()
             entry.date = Calendar.current.date(byAdding: .day, value: -i, to: Date()) ?? Date()
             entry.text = sampleTexts[i]
+            entry.satisfactionScore = sampleScores[i]
             entry.createdAt = entry.date
             entry.isEdited = false
         }

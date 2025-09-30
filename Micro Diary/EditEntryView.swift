@@ -14,6 +14,7 @@ struct EditEntryView: View {
     
     let entry: Entry
     @State private var editedText: String = ""
+    @State private var editedSatisfactionScore: Double = 50
     @State private var showingSaveConfirmation = false
     @State private var isLoading = false
     
@@ -73,6 +74,45 @@ struct EditEntryView: View {
                             }
                         }
                         
+                        // 満足度スライダー
+                        VStack(spacing: 12) {
+                            HStack {
+                                Text("満足度")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                                
+                                Spacer()
+                                
+                                Text("\(Int(editedSatisfactionScore)) / 100")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
+                            
+                            Slider(value: $editedSatisfactionScore, in: 0...100, step: 1)
+                                .accentColor(.blue)
+                            
+                            HStack {
+                                Text("0")
+                                    .font(.caption2)
+                                    .foregroundColor(.secondary)
+                                
+                                Spacer()
+                                
+                                Text("50")
+                                    .font(.caption2)
+                                    .foregroundColor(.secondary)
+                                
+                                Spacer()
+                                
+                                Text("100")
+                                    .font(.caption2)
+                                    .foregroundColor(.secondary)
+                            }
+                        }
+                        .padding(16)
+                        .background(Color(.tertiarySystemBackground))
+                        .cornerRadius(12)
+                        
                         Button(action: saveEntry) {
                             if isLoading {
                                 HStack {
@@ -131,6 +171,7 @@ struct EditEntryView: View {
         }
         .onAppear {
             editedText = entry.text ?? ""
+            editedSatisfactionScore = Double(entry.satisfactionScore)
         }
     }
     
@@ -141,6 +182,7 @@ struct EditEntryView: View {
         
         // エントリを更新
         entry.text = editedText
+        entry.satisfactionScore = Int16(editedSatisfactionScore)
         entry.isEdited = true
         entry.updatedAt = Date()
         
