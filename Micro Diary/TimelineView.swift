@@ -175,3 +175,16 @@ struct EntryDetailView: View {
     TimelineView()
         .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
 }
+
+#Preview("TimelineEntryRow") {
+    let context = PersistenceController.preview.container.viewContext
+    let entry = Entry(context: context)
+    entry.id = UUID()
+    entry.date = Date()
+    entry.text = "今日は良い天気でした"
+    entry.createdAt = Date()
+    entry.isEdited = false
+    
+    return TimelineEntryRow(entry: entry)
+        .padding()
+}

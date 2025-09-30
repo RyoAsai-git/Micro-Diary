@@ -15,6 +15,7 @@ struct HomeView: View {
     @State private var todayText: String = ""
     @State private var showCompletionAnimation = false
     @State private var hasEntryToday = false
+    @State private var showingEditView = false
     
     // 今日の日付（日のみ）
     private var today: Date {
@@ -53,18 +54,45 @@ struct HomeView: View {
                 if let entry = todayEntry.first {
                     // 今日既に入力済み
                     VStack(spacing: 16) {
-                        Text(entry.text ?? "")
-                            .font(.body)
-                            .multilineTextAlignment(.center)
-                            .padding(16)
-                            .frame(maxWidth: .infinity)
-                            .frame(minHeight: 120)
-                            .background(Color(.secondarySystemBackground))
-                            .cornerRadius(12)
+                        ZStack(alignment: .bottomTrailing) {
+                            Text(entry.text ?? "")
+                                .font(.body)
+                                .multilineTextAlignment(.center)
+                                .padding(16)
+                                .frame(maxWidth: .infinity)
+                                .frame(minHeight: 120)
+                                .background(Color(.secondarySystemBackground))
+                                .cornerRadius(12)
+                            
+                            Button(action: {
+                                showingEditView = true
+                            }) {
+                                Image(systemName: "pencil")
+                                    .font(.system(size: 14))
+                                    .foregroundColor(.blue)
+                                    .padding(6)
+                                    .background(Color.white)
+                                    .clipShape(Circle())
+                                    .shadow(color: .gray.opacity(0.3), radius: 2, x: 0, y: 1)
+                            }
+                            .offset(x: -8, y: -8)
+                        }
                         
-                        Text("今日のひとことを記録しました ✓")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text("今日のひとことを記録しました ✓")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                                
+                                if entry.isEdited {
+                                    Text("編集済み")
+                                        .font(.caption2)
+                                        .foregroundColor(.orange)
+                                }
+                            }
+                            
+                            Spacer()
+                        }
                     }
                 } else {
                     // 今日未入力
@@ -103,7 +131,7 @@ struct HomeView: View {
                 Spacer()
             }
             .padding(.horizontal, 16)
-            .navigationTitle("My One Line")
+            .navigationTitle("今日のひとこと")
             .navigationBarTitleDisplayMode(.inline)
         }
         .overlay(
@@ -117,6 +145,12 @@ struct HomeView: View {
         )
         .sheet(isPresented: $adService.isShowingInterstitialAd) {
             InterstitialAdView(isPresented: $adService.isShowingInterstitialAd)
+        }
+        .sheet(isPresented: $showingEditView) {
+            if let entry = todayEntry.first {
+                EditEntryView(entry: entry)
+                    .environment(\.managedObjectContext, viewContext)
+            }
         }
         .onAppear {
             adService.initializeAds()
