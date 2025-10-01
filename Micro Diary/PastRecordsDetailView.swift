@@ -80,7 +80,10 @@ struct PastRecordsDetailView: View {
     
     var body: some View {
         NavigationView {
-            VStack(spacing: 0) {
+            ZStack {
+                GradientBackground()
+                
+                VStack(spacing: 0) {
                 // 検索バー（プレミアム機能）
                 if premiumService.canSearchDiary() {
                     SearchBar(text: $searchText)
@@ -90,22 +93,42 @@ struct PastRecordsDetailView: View {
                     Button(action: {
                         showingPremiumPrompt = true
                     }) {
-                        HStack {
+                        HStack(spacing: 8) {
                             Image(systemName: "magnifyingglass")
-                                .foregroundColor(.gray)
-                            Text("検索機能を使用するにはプレミアムが必要です")
+                                .foregroundColor(.blue)
+                                .font(.caption)
+                            Text("検索するにはプレミアムが必要です")
                                 .foregroundColor(.secondary)
                                 .font(.caption)
                             Spacer()
-                            Image(systemName: "star.fill")
-                                .foregroundColor(.orange)
-                                .font(.caption)
+                            HStack(spacing: 2) {
+                                Image(systemName: "crown.fill")
+                                    .foregroundColor(.orange)
+                                    .font(.caption2)
+                                Text("Premium")
+                                    .foregroundColor(.orange)
+                                    .font(.caption2)
+                                    .fontWeight(.semibold)
+                            }
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(
+                                Capsule()
+                                    .fill(Color.orange.opacity(0.1))
+                            )
                         }
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 12)
-                        .background(Color(.tertiarySystemBackground))
-                        .cornerRadius(8)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 8)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(Color.secondaryCardBackground)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color.orange.opacity(0.3), lineWidth: 1)
+                                )
+                        )
                     }
+                    .buttonStyle(PlainButtonStyle())
                     .padding(.horizontal, 16)
                     .padding(.top, 8)
                 }
@@ -120,16 +143,21 @@ struct PastRecordsDetailView: View {
                                 }) {
                                     HStack(spacing: 4) {
                                         Image(systemName: option.icon)
-                                            .font(.caption)
+                                            .font(.caption2)
                                         Text(option.rawValue)
-                                            .font(.caption)
+                                            .font(.caption2)
+                                            .fontWeight(.medium)
                                     }
                                     .foregroundColor(sortOption == option ? .white : .primary)
-                                    .padding(.horizontal, 12)
-                                    .padding(.vertical, 6)
+                                    .padding(.horizontal, 8)
+                                    .padding(.vertical, 4)
                                     .background(
-                                        RoundedRectangle(cornerRadius: 16)
-                                            .fill(sortOption == option ? Color.blue : Color(.secondarySystemBackground))
+                                        Capsule()
+                                            .fill(sortOption == option ? Color.blue : Color.secondaryCardBackground)
+                                            .overlay(
+                                                Capsule()
+                                                    .stroke(sortOption == option ? Color.clear : Color.blue.opacity(0.3), lineWidth: 1)
+                                            )
                                     )
                                 }
                                 .buttonStyle(PlainButtonStyle())
@@ -142,22 +170,42 @@ struct PastRecordsDetailView: View {
                     Button(action: {
                         showingPremiumPrompt = true
                     }) {
-                        HStack {
+                        HStack(spacing: 8) {
                             Image(systemName: "arrow.up.arrow.down")
-                                .foregroundColor(.gray)
-                            Text("ソート機能を使用するにはプレミアムが必要です")
+                                .foregroundColor(.blue)
+                                .font(.caption)
+                            Text("ソートするにはプレミアムが必要です")
                                 .foregroundColor(.secondary)
                                 .font(.caption)
                             Spacer()
-                            Image(systemName: "star.fill")
-                                .foregroundColor(.orange)
-                                .font(.caption)
+                            HStack(spacing: 2) {
+                                Image(systemName: "crown.fill")
+                                    .foregroundColor(.orange)
+                                    .font(.caption2)
+                                Text("Premium")
+                                    .foregroundColor(.orange)
+                                    .font(.caption2)
+                                    .fontWeight(.semibold)
+                            }
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(
+                                Capsule()
+                                    .fill(Color.orange.opacity(0.1))
+                            )
                         }
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 12)
-                        .background(Color(.tertiarySystemBackground))
-                        .cornerRadius(8)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 8)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(Color.secondaryCardBackground)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color.orange.opacity(0.3), lineWidth: 1)
+                                )
+                        )
                     }
+                    .buttonStyle(PlainButtonStyle())
                     .padding(.horizontal, 16)
                     .padding(.vertical, 8)
                 }
@@ -173,9 +221,15 @@ struct PastRecordsDetailView: View {
                         PastRecordRow(entry: entry)
                     }
                     .buttonStyle(PlainButtonStyle())
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
                 }
                 .listStyle(PlainListStyle())
+                .background(Color.clear)
+                .scrollContentBackground(.hidden)
             }
+                }
             .navigationTitle("過去の記録")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(
@@ -201,26 +255,35 @@ struct SearchBar: View {
     @Binding var text: String
     
     var body: some View {
-        HStack {
+        HStack(spacing: 8) {
             Image(systemName: "magnifyingglass")
-                .foregroundColor(.gray)
+                .foregroundColor(.blue)
+                .font(.caption)
             
             TextField("日記を検索...", text: $text)
                 .textFieldStyle(PlainTextFieldStyle())
+                .font(.caption)
             
             if !text.isEmpty {
                 Button(action: {
                     text = ""
                 }) {
                     Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.gray)
+                        .foregroundColor(.secondary)
+                        .font(.caption)
                 }
             }
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
-        .background(Color(.secondarySystemBackground))
-        .cornerRadius(8)
+        .background(
+            RoundedRectangle(cornerRadius: 8)
+                .fill(Color.cardBackground)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(Color.blue.opacity(0.3), lineWidth: 1)
+                )
+        )
     }
 }
 
@@ -268,7 +331,12 @@ struct PastRecordRow: View {
                 .lineLimit(2)
                 .multilineTextAlignment(.leading)
         }
-        .padding(.vertical, 4)
+        .padding(12)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color.cardBackground)
+                .shadow(color: Color.black.opacity(0.05), radius: 4, x: 0, y: 2)
+        )
     }
 }
 

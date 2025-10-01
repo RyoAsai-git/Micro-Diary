@@ -10,6 +10,7 @@ import CoreData
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @ObservedObject private var themeManager = ThemeManager.shared
     
     var body: some View {
         TabView {
@@ -37,6 +38,59 @@ struct ContentView: View {
                     Text("設定")
                 }
         }
+        .preferredColorScheme(themeManager.currentTheme.colorScheme)
+        .onAppear {
+            setupTabBarAppearance()
+        }
+        .onChange(of: themeManager.currentTheme) { _ in
+            setupTabBarAppearance()
+        }
+    }
+    
+    private func setupTabBarAppearance() {
+        // タブバーの設定
+        let tabBarAppearance = UITabBarAppearance()
+        
+        // テーマに応じてタブバーの背景を設定
+        switch themeManager.currentTheme {
+        case .light:
+            tabBarAppearance.configureWithOpaqueBackground()
+            tabBarAppearance.backgroundColor = UIColor.white.withAlphaComponent(0.95)
+        case .dark:
+            tabBarAppearance.configureWithOpaqueBackground()
+            tabBarAppearance.backgroundColor = UIColor.black.withAlphaComponent(0.95)
+        case .system:
+            tabBarAppearance.configureWithDefaultBackground()
+        }
+        
+        // 影を追加してタブバーを際立たせる
+        tabBarAppearance.shadowColor = UIColor.black.withAlphaComponent(0.1)
+        
+        UITabBar.appearance().standardAppearance = tabBarAppearance
+        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+        
+        // ナビゲーションバーの設定 - 完全に透明にして洗練された見た目に
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.configureWithTransparentBackground()
+        navBarAppearance.backgroundColor = UIColor.clear
+        navBarAppearance.shadowColor = UIColor.clear
+        
+        // タイトルの色を設定
+        switch themeManager.currentTheme {
+        case .light:
+            navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.label]
+            navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.label]
+        case .dark:
+            navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.label]
+            navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.label]
+        case .system:
+            navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.label]
+            navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.label]
+        }
+        
+        UINavigationBar.appearance().standardAppearance = navBarAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
+        UINavigationBar.appearance().compactAppearance = navBarAppearance
     }
 }
 

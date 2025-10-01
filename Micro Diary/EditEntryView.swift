@@ -39,7 +39,10 @@ struct EditEntryView: View {
     
     var body: some View {
         NavigationView {
-            VStack(spacing: 20) {
+            ZStack {
+                GradientBackground()
+                
+                VStack(spacing: 20) {
                 // 日付表示
                 VStack(spacing: 8) {
                     if let entryDate = entry.date {
@@ -61,7 +64,7 @@ struct EditEntryView: View {
                             .font(.body)
                             .padding(16)
                             .frame(minHeight: 120)
-                            .background(Color(.secondarySystemBackground))
+                            .background(Color.cardBackground)
                             .cornerRadius(12)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 12)
@@ -118,7 +121,7 @@ struct EditEntryView: View {
                             }
                         }
                         .padding(16)
-                        .background(Color(.tertiarySystemBackground))
+                        .background(Color.secondaryCardBackground)
                         .cornerRadius(12)
                         
                         Button(action: saveEntry) {
@@ -148,7 +151,6 @@ struct EditEntryView: View {
                             .padding(16)
                             .frame(maxWidth: .infinity)
                             .frame(minHeight: 120)
-                            .background(Color(.tertiarySystemBackground))
                             .cornerRadius(12)
                         
                         VStack(spacing: 8) {
@@ -166,8 +168,9 @@ struct EditEntryView: View {
                 }
                 
                 Spacer()
+                }
+                .padding(.horizontal, 16)
             }
-            .padding(.horizontal, 16)
             .navigationTitle("編集")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(

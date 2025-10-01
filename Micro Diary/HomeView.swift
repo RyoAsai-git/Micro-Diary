@@ -38,7 +38,10 @@ struct HomeView: View {
     
     var body: some View {
         NavigationView {
-            VStack(spacing: 32) {
+            ZStack {
+                GradientBackground()
+                
+                VStack(spacing: 32) {
                 // 日付表示
                 VStack(spacing: 8) {
                     Text(today, style: .date)
@@ -62,8 +65,11 @@ struct HomeView: View {
                                 .padding(16)
                                 .frame(maxWidth: .infinity)
                                 .frame(minHeight: 120)
-                                .background(Color(.secondarySystemBackground))
-                                .cornerRadius(12)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .fill(Color.cardBackground)
+                                        .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 2)
+                                )
                             
                             Button(action: {
                                 showingEditView = true
@@ -71,10 +77,12 @@ struct HomeView: View {
                                 Image(systemName: "pencil")
                                     .font(.system(size: 14))
                                     .foregroundColor(.blue)
-                                    .padding(6)
-                                    .background(Color.white)
-                                    .clipShape(Circle())
-                                    .shadow(color: .gray.opacity(0.3), radius: 2, x: 0, y: 1)
+                                    .padding(8)
+                                    .background(
+                                        Circle()
+                                            .fill(Color.cardBackground)
+                                            .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
+                                    )
                             }
                             .offset(x: -8, y: -8)
                         }
@@ -98,7 +106,7 @@ struct HomeView: View {
                         }
                         .padding(12)
                         .frame(maxWidth: .infinity)
-                        .background(Color(.tertiarySystemBackground))
+                        .background(Color.secondaryCardBackground)
                         .cornerRadius(8)
                         
                         HStack {
@@ -116,6 +124,11 @@ struct HomeView: View {
                             
                             Spacer()
                         }
+                        .padding(12)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(Color.secondaryCardBackground)
+                        )
                     }
                 } else {
                     // 今日未入力
@@ -124,7 +137,7 @@ struct HomeView: View {
                             .font(.body)
                             .padding(16)
                             .frame(minHeight: 120)
-                            .background(Color(.secondarySystemBackground))
+                            .background(Color.cardBackground)
                             .cornerRadius(12)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 12)
@@ -172,7 +185,7 @@ struct HomeView: View {
                             }
                         }
                         .padding(16)
-                        .background(Color(.tertiarySystemBackground))
+                        .background(Color.secondaryCardBackground)
                         .cornerRadius(12)
                         
                         Button(action: saveTodayEntry) {
@@ -191,8 +204,9 @@ struct HomeView: View {
                 PastRecordView()
                 
                 Spacer()
+                }
+                .padding(.horizontal, 16)
             }
-            .padding(.horizontal, 16)
             .navigationTitle("今日のひとこと")
             .navigationBarTitleDisplayMode(.inline)
         }
@@ -386,7 +400,7 @@ struct PastRecordView: View {
             }
             .padding(12)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Color(.tertiarySystemBackground))
+            .background(Color.white.opacity(0.8))
             .cornerRadius(8)
         }
         .onAppear {

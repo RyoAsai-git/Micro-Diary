@@ -57,7 +57,10 @@ struct RecordsView: View {
     
     var body: some View {
         NavigationView {
-            ScrollView {
+            ZStack {
+                GradientBackground()
+                
+                ScrollView {
                 VStack(spacing: 24) {
                     // 期間選択
                     Picker("期間", selection: $selectedPeriod) {
@@ -88,6 +91,7 @@ struct RecordsView: View {
                     Spacer(minLength: 32)
                 }
                 .padding(.top, 16)
+                }
             }
             .navigationTitle("記録")
             .navigationBarTitleDisplayMode(.large)
@@ -141,7 +145,7 @@ struct PastRecordsSection: View {
                 }
             }
             .padding(16)
-            .background(Color(.secondarySystemBackground))
+            .background(Color.cardBackground)
             .cornerRadius(12)
         }
         .buttonStyle(PlainButtonStyle())
@@ -214,7 +218,6 @@ struct StatCardView: View {
         }
         .frame(maxWidth: .infinity)
         .padding(12)
-        .background(Color(.tertiarySystemBackground))
         .cornerRadius(8)
     }
 }
