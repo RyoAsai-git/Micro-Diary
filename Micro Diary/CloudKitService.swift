@@ -81,6 +81,10 @@ class CloudKitService: ObservableObject {
         }
     }
     
+    var iCloudAvailable: Bool {
+        return iCloudStatus == .available
+    }
+    
     var iCloudStatusText: String {
         switch iCloudStatus {
         case .available:

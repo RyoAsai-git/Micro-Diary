@@ -21,15 +21,32 @@ class PremiumService: NSObject, ObservableObject {
     
     private let premiumProductID = "com.ryoasai.microdiary.premium.monthly" // 実際のプロダクトIDに変更
     
+    // 開発・テスト用フラグ
+    private let isDevelopmentMode = true
+    
     override init() {
         super.init()
-        SKPaymentQueue.default().add(self)
+        if !isDevelopmentMode {
+            SKPaymentQueue.default().add(self)
+        }
         loadPremiumStatus()
-        requestProducts()
+        if isDevelopmentMode {
+            setupDevelopmentMode()
+        } else {
+            requestProducts()
+        }
     }
     
     deinit {
-        SKPaymentQueue.default().remove(self)
+        if !isDevelopmentMode {
+            SKPaymentQueue.default().remove(self)
+        }
+    }
+    
+    private func setupDevelopmentMode() {
+        // 開発・テスト用のダミー製品を作成
+        isLoading = false
+        print("Development mode: Premium service initialized")
     }
     
     private func loadPremiumStatus() {
@@ -46,6 +63,20 @@ class PremiumService: NSObject, ObservableObject {
     }
     
     func purchasePremium() {
+        if isDevelopmentMode {
+            // 開発・テスト用の購入処理
+            isLoading = true
+            purchaseError = nil
+            
+            // 2秒後に購入完了をシミュレート
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                self.unlockPremiumFeatures()
+                self.isLoading = false
+                print("Development mode: Premium purchase simulated")
+            }
+            return
+        }
+        
         guard let product = products.first(where: { $0.productIdentifier == premiumProductID }) else {
             purchaseError = "プロダクトが見つかりません"
             return
@@ -64,6 +95,26 @@ class PremiumService: NSObject, ObservableObject {
     }
     
     func restorePurchases() {
+        if isDevelopmentMode {
+            // 開発・テスト用の復元処理
+            isLoading = true
+            purchaseError = nil
+            
+            // 1秒後に復元完了をシミュレート
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                // 既に購入済みの場合は復元、そうでなければエラー
+                if UserDefaults.standard.bool(forKey: "isPremiumUser") {
+                    self.unlockPremiumFeatures()
+                    print("Development mode: Premium purchase restored")
+                } else {
+                    self.purchaseError = "復元する購入が見つかりませんでした"
+                    print("Development mode: No purchase to restore")
+                }
+                self.isLoading = false
+            }
+            return
+        }
+        
         isLoading = true
         purchaseError = nil
         SKPaymentQueue.default().restoreCompletedTransactions()
@@ -159,12 +210,15 @@ extension PremiumService: SKPaymentTransactionObserver {
 
 // MARK: - Premium Features
 extension PremiumService {
-    func canEditEntry() -> Bool {
+    func canEditPastEntries() -> Bool {
         return isPremiumUser
     }
     
+    func canUseSatisfactionSort() -> Bool {
+        return isPremiumUser
+    }
     
-    func canChangeTheme() -> Bool {
+    func canSearchDiary() -> Bool {
         return isPremiumUser
     }
     
@@ -176,6 +230,16 @@ extension PremiumService {
         
         AdService.shared.showRewardedAd { success in
             completion(success)
+        }
+    }
+    
+    // 開発・テスト用: プレミアム状態をリセット
+    func resetPremiumStatus() {
+        if isDevelopmentMode {
+            isPremiumUser = false
+            UserDefaults.standard.set(false, forKey: "isPremiumUser")
+            AdService.shared.setPremiumStatus(false)
+            print("Development mode: Premium status reset")
         }
     }
 }
@@ -219,60 +283,74 @@ struct PremiumPurchaseView: View {
                         )
                         
                         PremiumFeatureRow(
-                            icon: "paintbrush.fill",
-                            title: "テーマ変更",
-                            description: "ライト・ダークテーマの選択"
+                            icon: "pencil.circle.fill",
+                            title: "過去投稿編集",
+                            description: "すべての過去の日記を編集可能"
                         )
                         
+                        PremiumFeatureRow(
+                            icon: "arrow.up.arrow.down.circle.fill",
+                            title: "満足度ソート",
+                            description: "満足度順で日記を並び替え"
+                        )
                         
                         PremiumFeatureRow(
-                            icon: "pencil.circle.fill",
-                            title: "無制限編集",
-                            description: "過去の日記を自由に編集"
+                            icon: "magnifyingglass.circle.fill",
+                            title: "日記検索",
+                            description: "過去の日記を内容で検索"
                         )
                     }
                     .padding(.horizontal, 16)
                     
                     // 価格とボタン
                     VStack(spacing: 16) {
-                        if let product = premiumService.products.first {
-                            VStack {
-                                Text("月額 \(formatPrice(product.price))")
-                                    .font(.title2)
-                                    .fontWeight(.bold)
-                                
-                                Text("いつでもキャンセル可能")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                            }
+                        // 開発・テスト用の価格表示
+                        VStack {
+                            Text("月額 ¥480")
+                                .font(.title2)
+                                .fontWeight(.bold)
                             
-                            Button(action: {
-                                premiumService.purchasePremium()
-                            }) {
-                                if premiumService.isLoading {
-                                    ProgressView()
-                                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                                } else {
-                                    Text("プレミアムを開始")
-                                }
-                            }
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 50)
-                            .background(Color.blue)
-                            .cornerRadius(12)
-                            .disabled(premiumService.isLoading)
-                        } else {
-                            Text("読み込み中...")
+                            Text("いつでもキャンセル可能")
+                                .font(.caption)
                                 .foregroundColor(.secondary)
+                            
+                            Text("※開発・テスト版")
+                                .font(.caption2)
+                                .foregroundColor(.orange)
                         }
                         
-                        Button("購入を復元") {
-                            premiumService.restorePurchases()
+                        Button(action: {
+                            premiumService.purchasePremium()
+                        }) {
+                            if premiumService.isLoading {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                            } else {
+                                Text("プレミアムを開始")
+                            }
                         }
-                        .font(.caption)
-                        .foregroundColor(.blue)
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 50)
+                        .background(Color.blue)
+                        .cornerRadius(12)
+                        .disabled(premiumService.isLoading)
+                        
+                        HStack(spacing: 32) {
+                            Button("購入を復元") {
+                                premiumService.restorePurchases()
+                            }
+                            .font(.caption)
+                            .foregroundColor(.blue)
+                            
+                            // 開発・テスト用のリセットボタン
+                            Button("リセット（テスト用）") {
+                                premiumService.resetPremiumStatus()
+                            }
+                            .font(.caption)
+                            .foregroundColor(.red)
+                        }
                     }
                     .padding(.horizontal, 16)
                     
