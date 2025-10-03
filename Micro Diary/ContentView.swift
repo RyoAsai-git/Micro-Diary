@@ -42,7 +42,7 @@ struct ContentView: View {
         .onAppear {
             setupTabBarAppearance()
         }
-        .onChange(of: themeManager.currentTheme) { _ in
+        .onChange(of: themeManager.currentTheme) {
             setupTabBarAppearance()
         }
     }

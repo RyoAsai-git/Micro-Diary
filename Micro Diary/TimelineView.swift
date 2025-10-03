@@ -23,55 +23,63 @@ struct TimelineView: View {
                 GradientBackground()
                 
                 VStack(spacing: 0) {
-                ScrollView {
-                    LazyVStack(spacing: 0) {
-                        ForEach(groupedEntries, id: \.key) { month, monthEntries in
-                            VStack(spacing: 0) {
-                                // セクションヘッダー
-                                HStack {
-                                    Text(monthHeaderText(for: month))
-                                        .font(.title2)
-                                        .fontWeight(.bold)
-                                        .foregroundColor(.primary)
-                                    Spacer()
-                                    Text("\(monthEntries.count)件")
-                                        .font(.caption)
-                                        .foregroundColor(.secondary)
-                                        .padding(.horizontal, 8)
-                                        .padding(.vertical, 4)
-                                        .background(
-                                            Capsule()
-                                                .fill(Color.secondaryCardBackground)
-                                        )
-                                }
-                                .padding(.horizontal, 20)
-                                .padding(.vertical, 12)
-                                
-                                // エントリー一覧
-                                LazyVStack(spacing: 12) {
-                                    ForEach(monthEntries) { entry in
-                                        NavigationLink(destination: EntryDetailView(entry: entry)) {
-                                            TimelineEntryRow(entry: entry)
-                                        }
-                                        .buttonStyle(PlainButtonStyle())
+                    ScrollView {
+                        LazyVStack(spacing: 0) {
+                            ForEach(groupedEntries, id: \.key) { month, monthEntries in
+                                VStack(spacing: 0) {
+                                    // セクションヘッダー
+                                    HStack {
+                                        Text(monthHeaderText(for: month))
+                                            .font(.title2)
+                                            .fontWeight(.bold)
+                                            .foregroundColor(.primary)
+                                        Spacer()
+                                        Text("\(monthEntries.count)件")
+                                            .font(.caption)
+                                            .foregroundColor(.secondary)
+                                            .padding(.horizontal, 8)
+                                            .padding(.vertical, 4)
+                                            .background(
+                                                Capsule()
+                                                    .fill(Color.secondaryCardBackground)
+                                            )
                                     }
+                                    .padding(.horizontal, 20)
+                                    .padding(.vertical, 12)
+                                    
+                                    // エントリー一覧
+                                    LazyVStack(spacing: 12) {
+                                        ForEach(monthEntries) { entry in
+                                            NavigationLink(destination: EntryDetailView(entry: entry)) {
+                                                TimelineEntryRow(entry: entry)
+                                            }
+                                            .buttonStyle(PlainButtonStyle())
+                                        }
+                                    }
+                                    .padding(.horizontal, 16)
+                                    .padding(.bottom, 24)
                                 }
-                                .padding(.horizontal, 16)
-                                .padding(.bottom, 24)
+                            }
+                            
+                            // バナー広告のための余白（プレミアムユーザーでない場合のみ）
+                            if !adService.isPremiumUser {
+                                Spacer(minLength: 80)
+                            } else {
+                                Spacer(minLength: 20)
                             }
                         }
-                        
-                        // 底部の余白
-                        Spacer(minLength: 100)
+                        .padding(.top, 8)
                     }
-                    .padding(.top, 8)
-                }
-                .navigationTitle("タイムライン")
-                .navigationBarTitleDisplayMode(.large)
-                
+                    .navigationTitle("タイムライン")
+                    .navigationBarTitleDisplayMode(.large)
+                    
                     // バナー広告（プレミアムユーザーでない場合のみ表示）
                     if !adService.isPremiumUser {
-                        BannerAdView()
+                        AdBannerView()
+                            .frame(height: 60)
+                            .padding(.horizontal, 16)
+                            .padding(.bottom, 8)
+                            .background(Color.clear)
                     }
                 }
             }

@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		73A3666991A9570146B8A6A8 /* Pods_Micro_DiaryTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94E9C8B181DFB52575F985C2 /* Pods_Micro_DiaryTests.framework */; };
-		C5ECB17FA360B4C23DCA0B97 /* Pods_Micro_Diary_Micro_DiaryUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D16BCB62BE7DBA0F9437AE0 /* Pods_Micro_Diary_Micro_DiaryUITests.framework */; };
-		DE8B303C267A236EF37CEBB3 /* Pods_Micro_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8847AF5EFD2408852BE0339 /* Pods_Micro_Diary.framework */; };
+		7C45FE276C6DD4C1E5B88C3F /* Pods_Micro_DiaryTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FC280D444BCB8383FF85F0C /* Pods_Micro_DiaryTests.framework */; };
+		CEC3DF97CB3C429950794574 /* Pods_Micro_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B48FBB86762834BBD3E0EA8 /* Pods_Micro_Diary.framework */; };
+		D50BAEA08222F68F5FFF81EE /* Pods_Micro_Diary_Micro_DiaryUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB874899D43175ED4AFFCFA8 /* Pods_Micro_Diary_Micro_DiaryUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,18 +30,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		00EB980BB29B3A82DB3F82B8 /* Pods-Micro DiaryTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Micro DiaryTests.release.xcconfig"; path = "Target Support Files/Pods-Micro DiaryTests/Pods-Micro DiaryTests.release.xcconfig"; sourceTree = "<group>"; };
+		013309B2592CCFDD62802A69 /* Pods-Micro Diary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Micro Diary.debug.xcconfig"; path = "Target Support Files/Pods-Micro Diary/Pods-Micro Diary.debug.xcconfig"; sourceTree = "<group>"; };
 		0941D03B2E8198D3009CA751 /* Micro Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Micro Diary.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0941D04F2E8198D4009CA751 /* Micro DiaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Micro DiaryTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0941D0592E8198D4009CA751 /* Micro DiaryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Micro DiaryUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D16BCB62BE7DBA0F9437AE0 /* Pods_Micro_Diary_Micro_DiaryUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Micro_Diary_Micro_DiaryUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		477E508ABD9FB19443109CB9 /* Pods-Micro Diary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Micro Diary.release.xcconfig"; path = "Target Support Files/Pods-Micro Diary/Pods-Micro Diary.release.xcconfig"; sourceTree = "<group>"; };
-		6DB27014AFF076899D6B97EB /* Pods-Micro Diary-Micro DiaryUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Micro Diary-Micro DiaryUITests.debug.xcconfig"; path = "Target Support Files/Pods-Micro Diary-Micro DiaryUITests/Pods-Micro Diary-Micro DiaryUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		8CF61EEE717826FDAA71D9E6 /* Pods-Micro Diary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Micro Diary.debug.xcconfig"; path = "Target Support Files/Pods-Micro Diary/Pods-Micro Diary.debug.xcconfig"; sourceTree = "<group>"; };
-		94E9C8B181DFB52575F985C2 /* Pods_Micro_DiaryTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Micro_DiaryTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A0167DE05DBF12A75CB5BE6B /* Pods-Micro Diary-Micro DiaryUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Micro Diary-Micro DiaryUITests.release.xcconfig"; path = "Target Support Files/Pods-Micro Diary-Micro DiaryUITests/Pods-Micro Diary-Micro DiaryUITests.release.xcconfig"; sourceTree = "<group>"; };
-		A8FBD3FDB83EBF779D38C5C2 /* Pods-Micro DiaryTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Micro DiaryTests.debug.xcconfig"; path = "Target Support Files/Pods-Micro DiaryTests/Pods-Micro DiaryTests.debug.xcconfig"; sourceTree = "<group>"; };
-		B8847AF5EFD2408852BE0339 /* Pods_Micro_Diary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Micro_Diary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		16F3FB644E138EBC6A761428 /* Pods-Micro Diary-Micro DiaryUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Micro Diary-Micro DiaryUITests.debug.xcconfig"; path = "Target Support Files/Pods-Micro Diary-Micro DiaryUITests/Pods-Micro Diary-Micro DiaryUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		17E1376F15E4F1CA3BC56955 /* Pods-Micro Diary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Micro Diary.release.xcconfig"; path = "Target Support Files/Pods-Micro Diary/Pods-Micro Diary.release.xcconfig"; sourceTree = "<group>"; };
+		2FC280D444BCB8383FF85F0C /* Pods_Micro_DiaryTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Micro_DiaryTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F2AA394D8DFB06DF04D2E65 /* Pods-Micro DiaryTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Micro DiaryTests.debug.xcconfig"; path = "Target Support Files/Pods-Micro DiaryTests/Pods-Micro DiaryTests.debug.xcconfig"; sourceTree = "<group>"; };
+		6A66CCF23BDC87F37C7A55F6 /* Pods-Micro Diary-Micro DiaryUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Micro Diary-Micro DiaryUITests.release.xcconfig"; path = "Target Support Files/Pods-Micro Diary-Micro DiaryUITests/Pods-Micro Diary-Micro DiaryUITests.release.xcconfig"; sourceTree = "<group>"; };
+		8B48FBB86762834BBD3E0EA8 /* Pods_Micro_Diary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Micro_Diary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DB874899D43175ED4AFFCFA8 /* Pods_Micro_Diary_Micro_DiaryUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Micro_Diary_Micro_DiaryUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F92782B8E410D1539CB0CE88 /* Pods-Micro DiaryTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Micro DiaryTests.release.xcconfig"; path = "Target Support Files/Pods-Micro DiaryTests/Pods-Micro DiaryTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -80,7 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DE8B303C267A236EF37CEBB3 /* Pods_Micro_Diary.framework in Frameworks */,
+				CEC3DF97CB3C429950794574 /* Pods_Micro_Diary.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,7 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				73A3666991A9570146B8A6A8 /* Pods_Micro_DiaryTests.framework in Frameworks */,
+				7C45FE276C6DD4C1E5B88C3F /* Pods_Micro_DiaryTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,7 +96,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C5ECB17FA360B4C23DCA0B97 /* Pods_Micro_Diary_Micro_DiaryUITests.framework in Frameworks */,
+				D50BAEA08222F68F5FFF81EE /* Pods_Micro_Diary_Micro_DiaryUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,7 +111,7 @@
 				0941D05C2E8198D4009CA751 /* Micro DiaryUITests */,
 				0941D03C2E8198D3009CA751 /* Products */,
 				DAD44D5E13870B51487C7B49 /* Pods */,
-				EE5605992BED57FB529C622F /* Frameworks */,
+				1D8A4BE04CF42EDCB7EE4185 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -125,27 +125,27 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		1D8A4BE04CF42EDCB7EE4185 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8B48FBB86762834BBD3E0EA8 /* Pods_Micro_Diary.framework */,
+				DB874899D43175ED4AFFCFA8 /* Pods_Micro_Diary_Micro_DiaryUITests.framework */,
+				2FC280D444BCB8383FF85F0C /* Pods_Micro_DiaryTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		DAD44D5E13870B51487C7B49 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				8CF61EEE717826FDAA71D9E6 /* Pods-Micro Diary.debug.xcconfig */,
-				477E508ABD9FB19443109CB9 /* Pods-Micro Diary.release.xcconfig */,
-				6DB27014AFF076899D6B97EB /* Pods-Micro Diary-Micro DiaryUITests.debug.xcconfig */,
-				A0167DE05DBF12A75CB5BE6B /* Pods-Micro Diary-Micro DiaryUITests.release.xcconfig */,
-				A8FBD3FDB83EBF779D38C5C2 /* Pods-Micro DiaryTests.debug.xcconfig */,
-				00EB980BB29B3A82DB3F82B8 /* Pods-Micro DiaryTests.release.xcconfig */,
+				013309B2592CCFDD62802A69 /* Pods-Micro Diary.debug.xcconfig */,
+				17E1376F15E4F1CA3BC56955 /* Pods-Micro Diary.release.xcconfig */,
+				16F3FB644E138EBC6A761428 /* Pods-Micro Diary-Micro DiaryUITests.debug.xcconfig */,
+				6A66CCF23BDC87F37C7A55F6 /* Pods-Micro Diary-Micro DiaryUITests.release.xcconfig */,
+				3F2AA394D8DFB06DF04D2E65 /* Pods-Micro DiaryTests.debug.xcconfig */,
+				F92782B8E410D1539CB0CE88 /* Pods-Micro DiaryTests.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		EE5605992BED57FB529C622F /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				B8847AF5EFD2408852BE0339 /* Pods_Micro_Diary.framework */,
-				2D16BCB62BE7DBA0F9437AE0 /* Pods_Micro_Diary_Micro_DiaryUITests.framework */,
-				94E9C8B181DFB52575F985C2 /* Pods_Micro_DiaryTests.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -155,11 +155,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0941D0622E8198D4009CA751 /* Build configuration list for PBXNativeTarget "Micro Diary" */;
 			buildPhases = (
-				131598B353A6C111051E9422 /* [CP] Check Pods Manifest.lock */,
+				6E8998D160817A24AD615821 /* [CP] Check Pods Manifest.lock */,
 				0941D0372E8198D3009CA751 /* Sources */,
 				0941D0382E8198D3009CA751 /* Frameworks */,
 				0941D0392E8198D3009CA751 /* Resources */,
-				53DEFD2C96A8574261B66C3B /* [CP] Copy Pods Resources */,
+				58DDEB8B146DB1BFFB6F4F63 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -177,7 +177,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0941D0672E8198D4009CA751 /* Build configuration list for PBXNativeTarget "Micro DiaryTests" */;
 			buildPhases = (
-				EF3B10E07255F925EC0ACC7D /* [CP] Check Pods Manifest.lock */,
+				6CC861F0660C42417B1AA905 /* [CP] Check Pods Manifest.lock */,
 				0941D04B2E8198D4009CA751 /* Sources */,
 				0941D04C2E8198D4009CA751 /* Frameworks */,
 				0941D04D2E8198D4009CA751 /* Resources */,
@@ -199,11 +199,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0941D06A2E8198D4009CA751 /* Build configuration list for PBXNativeTarget "Micro DiaryUITests" */;
 			buildPhases = (
-				6673B740766EE7A0AFE829E6 /* [CP] Check Pods Manifest.lock */,
+				CEF1086394D82F51A63FC521 /* [CP] Check Pods Manifest.lock */,
 				0941D0552E8198D4009CA751 /* Sources */,
 				0941D0562E8198D4009CA751 /* Frameworks */,
 				0941D0572E8198D4009CA751 /* Resources */,
-				03C13A1108BE439D9BE72DAE /* [CP] Copy Pods Resources */,
+				2C22B0AC259C0EA30F59DF35 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -287,19 +287,17 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		03C13A1108BE439D9BE72DAE /* [CP] Copy Pods Resources */ = {
+		2C22B0AC259C0EA30F59DF35 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Micro Diary-Micro DiaryUITests/Pods-Micro Diary-Micro DiaryUITests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			inputPaths = (
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Micro Diary-Micro DiaryUITests/Pods-Micro Diary-Micro DiaryUITests-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			outputPaths = (
 			);
@@ -308,7 +306,48 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Micro Diary-Micro DiaryUITests/Pods-Micro Diary-Micro DiaryUITests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		131598B353A6C111051E9422 /* [CP] Check Pods Manifest.lock */ = {
+		58DDEB8B146DB1BFFB6F4F63 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Micro Diary/Pods-Micro Diary-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6CC861F0660C42417B1AA905 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Micro DiaryTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6E8998D160817A24AD615821 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -330,28 +369,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		53DEFD2C96A8574261B66C3B /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Micro Diary/Pods-Micro Diary-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Micro Diary/Pods-Micro Diary-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Micro Diary/Pods-Micro Diary-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6673B740766EE7A0AFE829E6 /* [CP] Check Pods Manifest.lock */ = {
+		CEF1086394D82F51A63FC521 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -367,28 +385,6 @@
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-Micro Diary-Micro DiaryUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EF3B10E07255F925EC0ACC7D /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Micro DiaryTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -437,7 +433,7 @@
 /* Begin XCBuildConfiguration section */
 		0941D0632E8198D4009CA751 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8CF61EEE717826FDAA71D9E6 /* Pods-Micro Diary.debug.xcconfig */;
+			baseConfigurationReference = 013309B2592CCFDD62802A69 /* Pods-Micro Diary.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -446,6 +442,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4B453P8N55;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Micro Diary/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -468,7 +465,7 @@
 		};
 		0941D0642E8198D4009CA751 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 477E508ABD9FB19443109CB9 /* Pods-Micro Diary.release.xcconfig */;
+			baseConfigurationReference = 17E1376F15E4F1CA3BC56955 /* Pods-Micro Diary.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -477,6 +474,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4B453P8N55;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Micro Diary/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -618,7 +616,7 @@
 		};
 		0941D0682E8198D4009CA751 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A8FBD3FDB83EBF779D38C5C2 /* Pods-Micro DiaryTests.debug.xcconfig */;
+			baseConfigurationReference = 3F2AA394D8DFB06DF04D2E65 /* Pods-Micro DiaryTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -637,7 +635,7 @@
 		};
 		0941D0692E8198D4009CA751 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 00EB980BB29B3A82DB3F82B8 /* Pods-Micro DiaryTests.release.xcconfig */;
+			baseConfigurationReference = F92782B8E410D1539CB0CE88 /* Pods-Micro DiaryTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -656,7 +654,7 @@
 		};
 		0941D06B2E8198D4009CA751 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6DB27014AFF076899D6B97EB /* Pods-Micro Diary-Micro DiaryUITests.debug.xcconfig */;
+			baseConfigurationReference = 16F3FB644E138EBC6A761428 /* Pods-Micro Diary-Micro DiaryUITests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -673,7 +671,7 @@
 		};
 		0941D06C2E8198D4009CA751 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A0167DE05DBF12A75CB5BE6B /* Pods-Micro Diary-Micro DiaryUITests.release.xcconfig */;
+			baseConfigurationReference = 6A66CCF23BDC87F37C7A55F6 /* Pods-Micro Diary-Micro DiaryUITests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;

@@ -206,6 +206,15 @@ struct HomeView: View {
                 Spacer()
                 }
                 .padding(.horizontal, 16)
+                
+                // バナー広告（Safe Areaを考慮）
+                VStack {
+                    Spacer()
+                    AdBannerView()
+                        .frame(height: 60)
+                        .padding(.horizontal, 16)
+                        .padding(.bottom, 8)
+                }
             }
             .navigationTitle("今日のひとこと")
             .navigationBarTitleDisplayMode(.inline)

@@ -91,6 +91,15 @@ struct RecordsView: View {
                     Spacer(minLength: 32)
                 }
                 .padding(.top, 16)
+                
+                // バナー広告（Safe Areaを考慮）
+                VStack {
+                    Spacer()
+                    AdBannerView()
+                        .frame(height: 60)
+                        .padding(.horizontal, 16)
+                        .padding(.bottom, 8)
+                }
                 }
             }
             .navigationTitle("記録")
