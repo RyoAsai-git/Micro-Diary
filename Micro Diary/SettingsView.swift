@@ -48,17 +48,11 @@ struct SettingsView: View {
                         SupportSection()
                         
                         Spacer(minLength: 32)
+                        
+                        // バナー広告のための余白
+                        Spacer(minLength: 120)
                     }
                     .padding(.top, 16)
-                    
-                    // バナー広告（Safe Areaを考慮）
-                    VStack {
-                        Spacer()
-                        AdBannerView()
-                            .frame(height: 60)
-                            .padding(.horizontal, 16)
-                            .padding(.bottom, 8)
-                    }
                 }
             }
             .navigationTitle("設定")

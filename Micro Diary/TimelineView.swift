@@ -25,62 +25,73 @@ struct TimelineView: View {
                 VStack(spacing: 0) {
                     ScrollView {
                         LazyVStack(spacing: 0) {
-                            ForEach(groupedEntries, id: \.key) { month, monthEntries in
-                                VStack(spacing: 0) {
-                                    // セクションヘッダー
-                                    HStack {
-                                        Text(monthHeaderText(for: month))
-                                            .font(.title2)
-                                            .fontWeight(.bold)
-                                            .foregroundColor(.primary)
-                                        Spacer()
-                                        Text("\(monthEntries.count)件")
-                                            .font(.caption)
-                                            .foregroundColor(.secondary)
-                                            .padding(.horizontal, 8)
-                                            .padding(.vertical, 4)
-                                            .background(
-                                                Capsule()
-                                                    .fill(Color.secondaryCardBackground)
-                                            )
-                                    }
-                                    .padding(.horizontal, 20)
-                                    .padding(.vertical, 12)
+                            if groupedEntries.isEmpty {
+                                // 投稿がない場合の表示
+                                VStack(spacing: 16) {
+                                    Spacer(minLength: 100)
                                     
-                                    // エントリー一覧
-                                    LazyVStack(spacing: 12) {
-                                        ForEach(monthEntries) { entry in
-                                            NavigationLink(destination: EntryDetailView(entry: entry)) {
-                                                TimelineEntryRow(entry: entry)
-                                            }
-                                            .buttonStyle(PlainButtonStyle())
-                                        }
-                                    }
-                                    .padding(.horizontal, 16)
-                                    .padding(.bottom, 24)
+                                    Image(systemName: "book.closed")
+                                        .font(.system(size: 60))
+                                        .foregroundColor(.secondary)
+                                    
+                                    Text("投稿がありません")
+                                        .font(.title2)
+                                        .fontWeight(.medium)
+                                        .foregroundColor(.primary)
+                                    
+                                    Text("今日の気持ちを記録してみましょう")
+                                        .font(.body)
+                                        .foregroundColor(.secondary)
+                                        .multilineTextAlignment(.center)
+                                    
+                                    Spacer(minLength: 100)
                                 }
-                            }
-                            
-                            // バナー広告のための余白（プレミアムユーザーでない場合のみ）
-                            if !adService.isPremiumUser {
-                                Spacer(minLength: 80)
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
                             } else {
-                                Spacer(minLength: 20)
+                                ForEach(groupedEntries, id: \.key) { month, monthEntries in
+                                    VStack(spacing: 0) {
+                                        // セクションヘッダー
+                                        HStack {
+                                            Text(monthHeaderText(for: month))
+                                                .font(.title2)
+                                                .fontWeight(.bold)
+                                                .foregroundColor(.primary)
+                                            Spacer()
+                                            Text("\(monthEntries.count)件")
+                                                .font(.caption)
+                                                .foregroundColor(.secondary)
+                                                .padding(.horizontal, 8)
+                                                .padding(.vertical, 4)
+                                                .background(
+                                                    Capsule()
+                                                        .fill(Color.secondaryCardBackground)
+                                                )
+                                        }
+                                        .padding(.horizontal, 20)
+                                        .padding(.vertical, 12)
+                                        
+                                        // エントリー一覧
+                                        LazyVStack(spacing: 12) {
+                                            ForEach(monthEntries) { entry in
+                                                NavigationLink(destination: EntryDetailView(entry: entry)) {
+                                                    TimelineEntryRow(entry: entry)
+                                                }
+                                                .buttonStyle(PlainButtonStyle())
+                                            }
+                                        }
+                                        .padding(.horizontal, 16)
+                                        .padding(.bottom, 24)
+                                    }
+                                }
+                                
+                            // バナー広告のための余白
+                            Spacer(minLength: 120)
                             }
                         }
                         .padding(.top, 8)
                     }
                     .navigationTitle("タイムライン")
                     .navigationBarTitleDisplayMode(.large)
-                    
-                    // バナー広告（プレミアムユーザーでない場合のみ表示）
-                    if !adService.isPremiumUser {
-                        AdBannerView()
-                            .frame(height: 60)
-                            .padding(.horizontal, 16)
-                            .padding(.bottom, 8)
-                            .background(Color.clear)
-                    }
                 }
             }
         }
