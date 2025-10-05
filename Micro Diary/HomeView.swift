@@ -41,18 +41,19 @@ struct HomeView: View {
             ZStack {
                 GradientBackground()
                 
-                VStack(spacing: 32) {
-                // 日付表示
-                VStack(spacing: 8) {
-                    Text(today, style: .date)
-                        .font(.title2)
-                        .foregroundColor(.secondary)
-                    
-                    Text("今日の気持ちをひとこと残そう")
-                        .font(.headline)
-                        .foregroundColor(.primary)
-                }
-                .padding(.top, 32)
+                ScrollView {
+                    VStack(spacing: 32) {
+                        // 日付表示
+                        VStack(spacing: 8) {
+                            Text(today, style: .date)
+                                .font(.title2)
+                                .foregroundColor(.secondary)
+                            
+                            Text("今日の気持ちをひとこと残そう")
+                                .font(.headline)
+                                .foregroundColor(.primary)
+                        }
+                        .padding(.top, 32)
                 
                 // 入力フィールドまたは表示フィールド
                 if let entry = todayEntry.first {
@@ -200,12 +201,14 @@ struct HomeView: View {
                     }
                 }
                 
-                // 過去の記録
-                PastRecordView()
-                
-                Spacer()
+                        // 過去の記録
+                        PastRecordView()
+                        
+                        // バナー広告のための余白
+                        Spacer(minLength: 120)
+                    }
+                    .padding(.horizontal, 16)
                 }
-                .padding(.horizontal, 16)
             }
             .navigationTitle("今日のひとこと")
             .navigationBarTitleDisplayMode(.inline)

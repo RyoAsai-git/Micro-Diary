@@ -7,9 +7,11 @@
 
 import SwiftUI
 import UserNotifications
+import GoogleMobileAds
 
 @main
 struct Micro_DiaryApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     let persistenceController = PersistenceController.shared
     @ObservedObject private var themeManager = ThemeManager.shared
 
@@ -70,6 +72,17 @@ struct Micro_DiaryApp: App {
                 print("Error scheduling notification: \(error)")
             }
         }
+    }
+}
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
+    ) -> Bool {
+        // Mobile Ads SDKを初期化
+        MobileAds.shared.start(completionHandler: nil)
+        return true
     }
 }
 

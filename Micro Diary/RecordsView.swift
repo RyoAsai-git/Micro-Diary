@@ -89,6 +89,9 @@ struct RecordsView: View {
                     )
                     
                     Spacer(minLength: 32)
+                    
+                    // バナー広告のための余白
+                    Spacer(minLength: 120)
                 }
                 .padding(.top, 16)
                 }
