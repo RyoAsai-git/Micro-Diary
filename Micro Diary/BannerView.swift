@@ -74,7 +74,7 @@ class GADBannerViewController: UIViewController, BannerViewDelegate {
         )
     }
     
-    // MARK: - BannerViewDelegate
+    // MARK: - GADBannerViewDelegate
     
     func bannerViewDidReceiveAd(_ bannerView: BannerView) {
         print("Banner ad loaded successfully")
