@@ -19,7 +19,7 @@ struct AdBannerView: UIViewControllerRepresentable {
 
 class GADBannerViewController: UIViewController, BannerViewDelegate {
     var bannerView: BannerView!
-    let adUnitID = "ca-app-pub-3940256099942544/2934735716" // テスト用の広告ユニットID
+    let adUnitID = "ca-app-pub-6760883877695559/4176741351" // 本番用の広告ユニットID
 
     override func viewDidLoad() {
         super.viewDidLoad()

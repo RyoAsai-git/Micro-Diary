@@ -7,6 +7,7 @@
 
 import SwiftUI
 import UserNotifications
+import MessageUI
 
 struct SettingsView: View {
     @ObservedObject private var premiumService = PremiumService.shared
@@ -389,6 +390,11 @@ struct ThemeSection: View {
 }
 
 struct SupportSection: View {
+    @State private var showingMailComposer = false
+    @State private var showingAppStoreRating = false
+    @State private var showingRatingAlert = false
+    @State private var showingMailUnavailableAlert = false
+    
     var body: some View {
         VStack(spacing: 12) {
             // セクションタイトル
@@ -402,33 +408,49 @@ struct SupportSection: View {
             
             // サポート項目カード
             VStack(spacing: 16) {
-                HStack {
-                    Image(systemName: "questionmark.circle")
-                        .foregroundColor(.blue)
-                    
-                    Text("ヘルプ・サポート")
-                    
-                    Spacer()
-                    
-                    Image(systemName: "chevron.right")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
+                Button(action: {
+                    if MFMailComposeViewController.canSendMail() {
+                        showingMailComposer = true
+                    } else {
+                        showingMailUnavailableAlert = true
+                    }
+                }) {
+                    HStack {
+                        Image(systemName: "questionmark.circle")
+                            .foregroundColor(.blue)
+                        
+                        Text("ヘルプ・サポート")
+                        
+                        Spacer()
+                        
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
                 }
+                .foregroundColor(.primary)
+                .buttonStyle(PlainButtonStyle())
                 
                 Divider()
                 
-                HStack {
-                    Image(systemName: "star")
-                        .foregroundColor(.blue)
-                    
-                    Text("アプリを評価")
-                    
-                    Spacer()
-                    
-                    Image(systemName: "chevron.right")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
+                Button(action: {
+                    showingAppStoreRating = true
+                }) {
+                    HStack {
+                        Image(systemName: "star")
+                            .foregroundColor(.blue)
+                        
+                        Text("アプリを評価")
+                        
+                        Spacer()
+                        
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
                 }
+                .foregroundColor(.primary)
+                .buttonStyle(PlainButtonStyle())
                 
                 Divider()
                 
@@ -440,7 +462,7 @@ struct SupportSection: View {
                     
                     Spacer()
                     
-                    Text("1.0.0")
+                    Text(appVersion)
                         .foregroundColor(.secondary)
                 }
             }
@@ -449,6 +471,114 @@ struct SupportSection: View {
             .cornerRadius(12)
         }
         .padding(.horizontal, 16)
+        .sheet(isPresented: $showingMailComposer) {
+            MailComposerView()
+        }
+        .alert("アプリを評価", isPresented: $showingRatingAlert) {
+            Button("App Storeで評価") {
+                openAppStoreForRating()
+            }
+            Button("キャンセル", role: .cancel) { }
+        } message: {
+            Text("App StoreでMicro Diaryを評価していただけますか？\n\n評価は開発の励みになります。")
+        }
+        .onChange(of: showingAppStoreRating) { showing in
+            if showing {
+                showingRatingAlert = true
+                showingAppStoreRating = false
+            }
+        }
+        .alert("メールが利用できません", isPresented: $showingMailUnavailableAlert) {
+            Button("OK") { }
+        } message: {
+            Text("メールアプリが設定されていません。\n\nサポート: support@microdiary.app")
+        }
+    }
+    
+    private var appVersion: String {
+        guard let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String else {
+            return "1.0.0"
+        }
+        
+        // バージョン番号の形式を正規化
+        let components = version.split(separator: ".").map(String.init)
+        
+        switch components.count {
+        case 1:
+            // "1" -> "1.0.0"
+            return "\(components[0]).0.0"
+        case 2:
+            // "1.0" -> "1.0.0", "2.0" -> "2.0.0"
+            return "\(components[0]).\(components[1]).0"
+        case 3:
+            // "1.0.5" -> "1.0.5"
+            return version
+        default:
+            // その他の場合はそのまま返す
+            return version
+        }
+    }
+    
+    private func openAppStoreForRating() {
+        // App Storeの評価ページを開く
+        // リリース前はテスト用のURLを使用
+        let appStoreURL = "https://apps.apple.com/app/micro-diary/id1234567890?action=write-review"
+        
+        if let url = URL(string: appStoreURL) {
+            UIApplication.shared.open(url)
+        }
+    }
+}
+
+// MARK: - Mail Composer View
+struct MailComposerView: UIViewControllerRepresentable {
+    @Environment(\.presentationMode) var presentationMode
+    
+    func makeUIViewController(context: Context) -> MFMailComposeViewController {
+        let mailComposer = MFMailComposeViewController()
+        mailComposer.mailComposeDelegate = context.coordinator
+        
+        // メールの設定
+        mailComposer.setToRecipients(["support@microdiary.app"])
+        mailComposer.setSubject("Micro Diary サポート")
+        
+        // デフォルトのメール本文
+        let deviceModel = UIDevice.current.model
+        let systemVersion = UIDevice.current.systemVersion
+        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
+        
+        let body = """
+        
+        
+        ---
+        デバイス情報:
+        デバイス: \(deviceModel)
+        iOS: \(systemVersion)
+        アプリバージョン: \(appVersion)
+        ---
+        """
+        
+        mailComposer.setMessageBody(body, isHTML: false)
+        
+        return mailComposer
+    }
+    
+    func updateUIViewController(_ uiViewController: MFMailComposeViewController, context: Context) {}
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+    
+    class Coordinator: NSObject, MFMailComposeViewControllerDelegate {
+        let parent: MailComposerView
+        
+        init(_ parent: MailComposerView) {
+            self.parent = parent
+        }
+        
+        func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+            parent.presentationMode.wrappedValue.dismiss()
+        }
     }
 }
 
